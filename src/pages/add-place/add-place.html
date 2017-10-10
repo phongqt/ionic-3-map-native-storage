@@ -1,0 +1,69 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add a Place</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list>
+      <ion-item>
+        <ion-label fixed>Title</ion-label>
+        <ion-input type="text" placeholder="Beautiful church..." name="title" ngModel required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Short Description</ion-label>
+        <ion-textarea name="description" ngModel required>
+
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button type="button" ion-button block outline icon-left (click)="onLocate()">
+            <ion-icon name="locate"></ion-icon>
+            Locate me
+          </button>
+        </ion-col>
+        <ion-col>
+          <button type="button" ion-button block outline icon-left (click)="onOpenMap()">
+            <ion-icon name="map"></ion-icon>
+            Select on map
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="locationIsSet">
+        <ion-col>
+          <agm-map [latitude]="location.lat" [longitude]="location.long" [zoom]="16">
+            <agm-marker [latitude]="location.lat" [longitude]="location.long"></agm-marker>
+          </agm-map>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center>
+          <p>Take a photo!</p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="imageUrl !== ''" >
+        <ion-col>
+          <img [src]="imgeUrl">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left block outline (click)="onTakePhoto()">
+             <ion-icon name="camera"></ion-icon>
+            Open camera
+           </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button type="submit" [disabled]="!f.valid || !locationIsSet" block color="secondary">Add this place</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
